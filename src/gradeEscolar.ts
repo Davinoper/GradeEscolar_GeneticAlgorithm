@@ -1,30 +1,12 @@
-import { Turma } from './classes/Turma'
-import { Horario } from './classes/Horario'
-import { Professor } from './classes/Professor'
-import { Disciplina } from './classes/Disciplina'
+import { Genes } from './classes/Populacao'
+import { Populacao } from './classes/Populacao'
+import { disciplinas } from './utils/Disciplinas'
 
-let professores: Array<Professor> = [
-  new Professor('Jânio'),
-  new Professor('Jeferson'),
-  new Professor('Tayse'),
-  new Professor('Tamyres'),
-  new Professor('BossoNaro'),
-];
 
-let disciplinas: Array<Disciplina> = [
-  new Disciplina('Topicos 2', professores[1]),
-  new Disciplina('IHC', professores[2]),
-  new Disciplina('IA', professores[3]),
-  new Disciplina('Eng. Qualidade', professores[4]),
-  new Disciplina('Calc. 1', professores[5]),
-];
+let cromossomo1 = new Genes(disciplinas) 
+let cromossomo2= new Genes(disciplinas) 
+let cromossomo3= new Genes(disciplinas) 
 
-let turmas: Array<Turma> = [
-  new Turma('1º serie'),
-  new Turma('2º serie'),
-  new Turma('3º serie'),
-];
-
-console.log(professores)
-console.log(disciplinas)
-console.log(turmas)
+console.log(cromossomo1.individuos[0].horario)
+console.log(cromossomo2.individuos[0].horario)
+console.log(cromossomo3.individuos[0].horario)
