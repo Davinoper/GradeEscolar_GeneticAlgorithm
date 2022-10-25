@@ -5,7 +5,7 @@ let professores: Array<Professor> = [
     new Professor('Jeferson'),
     new Professor('Tayse'),
     new Professor('Tamyres'),
-    new Professor('BossoNaro'), 
+    new Professor('Jocivan'), 
   ];
 
   export{ professores }

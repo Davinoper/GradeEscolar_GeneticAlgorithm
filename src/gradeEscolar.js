@@ -2,9 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Populacao_1 = require("./classes/Populacao");
 const Disciplinas_1 = require("./utils/Disciplinas");
-let cromossomo1 = new Populacao_1.Genes(Disciplinas_1.disciplinas);
-let cromossomo2 = new Populacao_1.Genes(Disciplinas_1.disciplinas);
-let cromossomo3 = new Populacao_1.Genes(Disciplinas_1.disciplinas);
-console.log(cromossomo1.individuos[0].horario);
-console.log(cromossomo2.individuos[0].horario);
-console.log(cromossomo3.individuos[0].horario);
+let populacao = Populacao_1.Populacao.GerarPopulacaoInicial(Disciplinas_1.disciplinas, 1);
+// console.log(populacao.individuos[0].pontuacao)
+// console.log(populacao.individuos[1].pontuacao)
+// console.log(populacao.individuos[3].pontuacao)

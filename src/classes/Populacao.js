@@ -1,22 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Genes = exports.Populacao = void 0;
+exports.Cromossomo = exports.Populacao = void 0;
 const Turma_1 = require("./Turma");
 const Horario_1 = require("./Horario");
 class Populacao {
     constructor(individuos) {
         this.individuos = individuos;
     }
-    GerarPopulacaoInicial(disciplinas, tamanhoPopulacao) {
+    static GerarPopulacaoInicial(disciplinas, tamanhoPopulacao) {
         let Retorno = [];
         for (let index = 0; index < tamanhoPopulacao; index++) {
-            Retorno.push(new Genes(disciplinas));
+            Retorno.push(new Cromossomo(disciplinas));
         }
-        return Retorno;
+        return new Populacao(Retorno);
     }
 }
 exports.Populacao = Populacao;
-class Genes {
+class Cromossomo {
     constructor(disciplinas) {
         let turmas = [
             new Turma_1.Turma('1º serie', new Horario_1.Horario([])),
@@ -32,7 +32,34 @@ class Genes {
                 aux.splice(random, 1);
             }
         });
-        this.individuos = turmas;
+        this.genes = turmas;
+        this.pontuacao = 0;
+        this.funcaoDeAvaliacao();
+    }
+    funcaoDeAvaliacao() {
+        let professoresTurmas = [];
+        this.genes.forEach((turma) => {
+            let professores = [];
+            turma.horario.disciplinas.forEach((disciplina) => {
+                professores.push(disciplina.professor);
+            });
+            professoresTurmas.push(professores);
+            console.log("professores:", professores);
+        });
+        console.log("professoresTurmas.length", professoresTurmas.length);
+        console.log("professoresTurmas[0].length", professoresTurmas[0].length);
+        for (let i = 0; i < professoresTurmas[0].length; i++) {
+            if (professoresTurmas[0][i] === professoresTurmas[1][i]) {
+                --this.pontuacao;
+            }
+            if (professoresTurmas[0][i] === professoresTurmas[2][i]) {
+                --this.pontuacao;
+            }
+            if (professoresTurmas[1][i] === professoresTurmas[2][i]) {
+                --this.pontuacao;
+            }
+        }
+        console.log("this.pontuacao", this.pontuacao);
     }
 }
-exports.Genes = Genes;
+exports.Cromossomo = Cromossomo;

@@ -1,12 +1,12 @@
-import { Genes } from './classes/Populacao'
+
 import { Populacao } from './classes/Populacao'
 import { disciplinas } from './utils/Disciplinas'
 
 
-let cromossomo1 = new Genes(disciplinas) 
-let cromossomo2= new Genes(disciplinas) 
-let cromossomo3= new Genes(disciplinas) 
+let populacao = Populacao.GerarPopulacaoInicial(disciplinas,1)
 
-console.log(cromossomo1.individuos[0].horario)
-console.log(cromossomo2.individuos[0].horario)
-console.log(cromossomo3.individuos[0].horario)
+// console.log(populacao.individuos[0].pontuacao)
+// console.log(populacao.individuos[1].pontuacao)
+// console.log(populacao.individuos[3].pontuacao)
+
+

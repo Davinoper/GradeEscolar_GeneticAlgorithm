@@ -7,6 +7,6 @@ let professores = [
     new Professor_1.Professor('Jeferson'),
     new Professor_1.Professor('Tayse'),
     new Professor_1.Professor('Tamyres'),
-    new Professor_1.Professor('BossoNaro'),
+    new Professor_1.Professor('Jocivan'),
 ];
 exports.professores = professores;
