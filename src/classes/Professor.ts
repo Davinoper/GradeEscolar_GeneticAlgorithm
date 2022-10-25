@@ -1,5 +1,5 @@
 class Professor{
-    nome
+    nome:String
 
     constructor(nome:String){
         this.nome = nome;

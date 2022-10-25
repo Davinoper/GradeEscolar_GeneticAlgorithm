@@ -47,7 +47,7 @@ class Populacao {
             return new Populacao(filhos);
         }
         else {
-            return new Populacao(campeoes);
+            return new Populacao(campeoes, true);
         }
     }
     multacao(filhos) {

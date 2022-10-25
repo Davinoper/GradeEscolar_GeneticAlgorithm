@@ -52,7 +52,7 @@ class Populacao {
       filhos = filhos.concat(filhosMutados);
       return new Populacao(filhos);
     }else{
-      return new Populacao(campeoes);
+      return new Populacao(campeoes,true);
     }
 
   }
