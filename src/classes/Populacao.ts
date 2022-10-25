@@ -2,12 +2,15 @@ import { Turma } from './Turma'
 import { Disciplina } from './Disciplina'
 import { Horario } from './Horario'
 import { Professor } from './Professor'
+import { disciplinas } from '../utils/Disciplinas'
 class Populacao {
   individuos: Cromossomo[]
-    
-  constructor(individuos: Cromossomo[]) {
+  isCampeao:Boolean
+  constructor(individuos: Cromossomo[],isCampeao?:Boolean) {
     this.individuos = individuos
+    this.isCampeao =(isCampeao=== null || isCampeao === undefined ? false: isCampeao)
   }
+
   static GerarPopulacaoInicial(disciplinas: Disciplina[],tamanhoPopulacao: Number): Populacao {
     let Retorno = []
     for (let index = 0; index < tamanhoPopulacao; index++) {
@@ -15,11 +18,8 @@ class Populacao {
     }
     return new Populacao(Retorno)
   }
+  
   static cruzamentoTurmas(individuo1:Cromossomo,individuo2:Cromossomo):Cromossomo{
-    console.log("=======================")
-    console.log("individuo1:",individuo1)
-    console.log("individuo2:",individuo2)
-    console.log("=======================")
     let aux = new Cromossomo(); 
     aux.genes[0] = individuo1.genes[0];
     aux.genes[1] = individuo2.genes[1];
@@ -29,7 +29,9 @@ class Populacao {
   }
 
   proximaGeracao(): Populacao{
-    this.individuos.sort((x) => x.pontuacao);
+    this.individuos.sort(function(a,b){
+      return a.pontuacao < b.pontuacao ? -1 : a.pontuacao > b.pontuacao ? 1: 0
+    });
     let individuosCruzamento = this.individuos.splice(0,5);
     let filhos = []
     for (let i = 0; i < individuosCruzamento.length; i++) { 
@@ -38,12 +40,34 @@ class Populacao {
             filhos.push(Populacao.cruzamentoTurmas(individuosCruzamento[e],individuosCruzamento[i]));            
         }   
     }
-    
-    return new Populacao(filhos);
+    let campeoes = filhos.filter((ind) =>{
+      if(ind.pontuacao == 0){
+        return true
+      }    
+    })
+    if(campeoes.length === 0 ){
+      let filhosMutados = this.multacao(filhos);
+      filhos = filhos.concat(individuosCruzamento);
+      filhos = filhos.concat(filhosMutados);
+      return new Populacao(filhos);
+    }else{
+      return new Populacao(campeoes);
+    }
+
   }
 
+  multacao(filhos: Cromossomo[]){
+    filhos.forEach((filho) => filho.genes.forEach((gene) =>{
+      let val1 = Math.floor(Math.random() * 10);
+      let aux = gene.horario.disciplinas[val1];
+      gene.horario.disciplinas.splice(val1,1);
+      gene.horario.disciplinas.push(aux);
+    } ))
+    return filhos;
+  }
 
 }
+
 class Cromossomo {
   genes: Turma[]
   pontuacao:number;
@@ -84,9 +108,6 @@ class Cromossomo {
         professoresTurmas.push(professores)
 
     })
-    console.log("professoresTurmas.length",professoresTurmas.length);
-    console.log("professoresTurmas[0].length",professoresTurmas[0].length);
-    
     
     for (let i = 0; i < professoresTurmas[0].length; i++) {
         if(professoresTurmas[0][i] === professoresTurmas[1][i]){
@@ -99,7 +120,6 @@ class Cromossomo {
             --this.pontuacao; 
         }
     }
-    console.log("this.pontuacao",this.pontuacao);
   }
 }
 

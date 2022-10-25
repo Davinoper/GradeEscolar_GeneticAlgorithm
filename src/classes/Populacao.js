@@ -15,10 +15,6 @@ class Populacao {
         return new Populacao(Retorno);
     }
     static cruzamentoTurmas(individuo1, individuo2) {
-        console.log("=======================");
-        console.log("individuo1:", individuo1);
-        console.log("individuo2:", individuo2);
-        console.log("=======================");
         let aux = new Cromossomo();
         aux.genes[0] = individuo1.genes[0];
         aux.genes[1] = individuo2.genes[1];
@@ -27,7 +23,9 @@ class Populacao {
         return aux;
     }
     proximaGeracao() {
-        this.individuos.sort((x) => x.pontuacao);
+        this.individuos.sort(function (a, b) {
+            return a.pontuacao < b.pontuacao ? -1 : a.pontuacao > b.pontuacao ? 1 : 0;
+        });
         let individuosCruzamento = this.individuos.splice(0, 5);
         let filhos = [];
         for (let i = 0; i < individuosCruzamento.length; i++) {
@@ -36,7 +34,17 @@ class Populacao {
                 filhos.push(Populacao.cruzamentoTurmas(individuosCruzamento[e], individuosCruzamento[i]));
             }
         }
-        return new Populacao(filhos);
+        filhos = this.multacao(filhos);
+        return new Populacao(filhos.concat(individuosCruzamento));
+    }
+    multacao(filhos) {
+        filhos.forEach((filho) => filho.genes.forEach((gene) => {
+            let val1 = Math.floor(Math.random() * 10);
+            let aux = gene.horario.disciplinas[val1];
+            gene.horario.disciplinas.splice(val1, 1);
+            gene.horario.disciplinas.push(aux);
+        }));
+        return filhos;
     }
 }
 exports.Populacao = Populacao;
@@ -72,8 +80,6 @@ class Cromossomo {
             });
             professoresTurmas.push(professores);
         });
-        console.log("professoresTurmas.length", professoresTurmas.length);
-        console.log("professoresTurmas[0].length", professoresTurmas[0].length);
         for (let i = 0; i < professoresTurmas[0].length; i++) {
             if (professoresTurmas[0][i] === professoresTurmas[1][i]) {
                 --this.pontuacao;
@@ -85,7 +91,6 @@ class Cromossomo {
                 --this.pontuacao;
             }
         }
-        console.log("this.pontuacao", this.pontuacao);
     }
 }
 exports.Cromossomo = Cromossomo;
