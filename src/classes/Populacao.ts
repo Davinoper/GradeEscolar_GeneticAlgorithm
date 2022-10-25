@@ -32,6 +32,7 @@ class Populacao {
     this.individuos.sort(function(a,b){
       return a.pontuacao < b.pontuacao ? -1 : a.pontuacao > b.pontuacao ? 1: 0
     });
+
     let individuosCruzamento = this.individuos.splice(0,5);
     let filhos = []
     for (let i = 0; i < individuosCruzamento.length; i++) { 

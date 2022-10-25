@@ -7,39 +7,36 @@ let populacao_I = Populacao.GerarPopulacaoInicial(disciplinas,2)
 
 console.log(populacao_I)
 
-var campeao: Cromossomo = new Cromossomo();
-for(let i =0; i < 10000; i++){
+
+while(!populacao_I.isCampeao){
     populacao_I = populacao_I.proximaGeracao()
-    populacao_I.individuos.forEach((ind) =>{
-        if(ind.pontuacao == 0){
-            campeao = ind
-            i = 10000
-        }    
-    })
-    
+    console.log("===melhor individuo====")
+    populacao_I.individuos.sort(function(a,b){
+        return a.pontuacao < b.pontuacao ? -1 : a.pontuacao > b.pontuacao ? 1: 0
+    });
+    populacao_I.individuos.reverse();
+    imprimeIndividuo(populacao_I.individuos[0]);
 }
 
-let professores: String[] = []
 
 
-campeao.genes.forEach((gene) =>{
-     gene.horario.disciplinas.forEach((disciplina) => professores.push(disciplina.nome))})
 
 
-let res = separar(professores,10)
-
-
-let cont = 1
-
-res.forEach((arr) =>{
-    console.log(`${cont} série: `)
-    cont +=1
-    console.log(arr)
-})
-
-compararHorarios(res)
-
-
+function imprimeIndividuo(individuo: Cromossomo){
+    let disciplinas: String[] = []
+    individuo.genes.forEach((gene) => {
+        gene.horario.disciplinas.forEach((disciplina) => disciplinas.push(disciplina.nome));
+    });
+    let res = separar(disciplinas,10)
+    let cont = 1
+    res.forEach((arr) =>{
+        console.log(`${cont} série: `)
+        cont +=1
+        console.log(arr)
+    })
+    compararHorarios(res)
+}
+  
 function compararHorarios(array: String[][]){
     let colisoes: number[][] = [[]]
     for (let i = 0; i < array[0].length; i++) {
@@ -58,10 +55,6 @@ function compararHorarios(array: String[][]){
 }
 
 
-
-
-
-
 function separar(base:String[], maximo: number) {
     var resultado: String[][] = [[]];
     var grupo = 0;
@@ -77,7 +70,6 @@ function separar(base:String[], maximo: number) {
         grupo = grupo + 1;
       }
     }
-  
     return resultado;
   }
 

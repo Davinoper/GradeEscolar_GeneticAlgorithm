@@ -4,8 +4,9 @@ exports.Cromossomo = exports.Populacao = void 0;
 const Turma_1 = require("./Turma");
 const Horario_1 = require("./Horario");
 class Populacao {
-    constructor(individuos) {
+    constructor(individuos, isCampeao) {
         this.individuos = individuos;
+        this.isCampeao = (isCampeao === null || isCampeao === undefined ? false : isCampeao);
     }
     static GerarPopulacaoInicial(disciplinas, tamanhoPopulacao) {
         let Retorno = [];
@@ -34,8 +35,20 @@ class Populacao {
                 filhos.push(Populacao.cruzamentoTurmas(individuosCruzamento[e], individuosCruzamento[i]));
             }
         }
-        filhos = this.multacao(filhos);
-        return new Populacao(filhos.concat(individuosCruzamento));
+        let campeoes = filhos.filter((ind) => {
+            if (ind.pontuacao == 0) {
+                return true;
+            }
+        });
+        if (campeoes.length === 0) {
+            let filhosMutados = this.multacao(filhos);
+            filhos = filhos.concat(individuosCruzamento);
+            filhos = filhos.concat(filhosMutados);
+            return new Populacao(filhos);
+        }
+        else {
+            return new Populacao(campeoes);
+        }
     }
     multacao(filhos) {
         filhos.forEach((filho) => filho.genes.forEach((gene) => {
