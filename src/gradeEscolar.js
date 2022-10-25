@@ -2,7 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Populacao_1 = require("./classes/Populacao");
 const Disciplinas_1 = require("./utils/Disciplinas");
-let populacao = Populacao_1.Populacao.GerarPopulacaoInicial(Disciplinas_1.disciplinas, 1);
-// console.log(populacao.individuos[0].pontuacao)
-// console.log(populacao.individuos[1].pontuacao)
-// console.log(populacao.individuos[3].pontuacao)
+let populacao_I = Populacao_1.Populacao.GerarPopulacaoInicial(Disciplinas_1.disciplinas, 100);
+let geracao1 = populacao_I.proximaGeracao();
+let geracao2 = geracao1.proximaGeracao();
+let geracao3 = geracao2.proximaGeracao();
+populacao_I.individuos = populacao_I.individuos.sort((x) => x.pontuacao);
+geracao1.individuos = geracao1.individuos.sort((x) => x.pontuacao);
+geracao2.individuos = geracao2.individuos.sort((x) => x.pontuacao);
+geracao3.individuos = geracao3.individuos.sort((x) => x.pontuacao);
+console.log(populacao_I);
+console.log(geracao1);
+console.log(geracao2);
+console.log(geracao3);
