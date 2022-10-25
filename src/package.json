@@ -1,0 +1,19 @@
+{
+  "name": "node-with-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gradeEscolar.js",
+  "scripts": {
+    "start": "tsc && node gradeEscolar.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
