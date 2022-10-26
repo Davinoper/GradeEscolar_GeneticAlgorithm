@@ -3,10 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cromossomo = exports.Populacao = void 0;
 const Turma_1 = require("./Turma");
 const Horario_1 = require("./Horario");
+const Utils_1 = require("../utils/Utils");
+const Utils_2 = require("../utils/Utils");
 class Populacao {
     constructor(individuos, isCampeao) {
         this.individuos = individuos;
-        this.isCampeao = (isCampeao === null || isCampeao === undefined ? false : isCampeao);
+        this.isCampeao =
+            isCampeao === null || isCampeao === undefined ? false : isCampeao;
+        this.media = this.individuos.map(x => x.pontuacao).reduce((soma, nota) => soma += nota, 0) / this.individuos.length;
     }
     static GerarPopulacaoInicial(disciplinas, tamanhoPopulacao) {
         let Retorno = [];
@@ -52,7 +56,7 @@ class Populacao {
     }
     multacao(filhos) {
         filhos.forEach((filho) => filho.genes.forEach((gene) => {
-            let val1 = Math.floor(Math.random() * 10);
+            let val1 = Math.floor(Math.random() * gene.horario.disciplinas.length);
             let aux = gene.horario.disciplinas[val1];
             gene.horario.disciplinas.splice(val1, 1);
             gene.horario.disciplinas.push(aux);
@@ -104,6 +108,20 @@ class Cromossomo {
                 --this.pontuacao;
             }
         }
+    }
+    imprimeIndividuo() {
+        let disciplinas = [];
+        this.genes.forEach((gene) => {
+            gene.horario.disciplinas.forEach((disciplina) => disciplinas.push(disciplina.nome));
+        });
+        let res = Utils_2.separar(disciplinas, 10);
+        let cont = 1;
+        res.forEach((horario) => {
+            console.log(`${cont} série: `);
+            cont += 1;
+            console.log(horario);
+        });
+        Utils_1.compararHorarios(res);
     }
 }
 exports.Cromossomo = Cromossomo;
